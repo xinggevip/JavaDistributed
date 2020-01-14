@@ -10,6 +10,7 @@
         <module name="common" />
         <module name="interface" />
         <module name="service_sellerGoods" />
+        <module name="web_management" />
       </profile>
     </annotationProcessing>
   </component>
