@@ -1,0 +1,23 @@
+package com.fmjava.core.dao.order;
+
+import com.fmjava.core.pojo.order.OrderItem;
+import com.fmjava.core.pojo.order.OrderItemQuery;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+
+public interface OrderItemDao {
+    int countByExample(OrderItemQuery example);
+
+    int deleteByExample(OrderItemQuery example);
+
+    int insert(OrderItem record);
+
+    int insertSelective(OrderItem record);
+
+    List<OrderItem> selectByExample(OrderItemQuery example);
+
+    int updateByExampleSelective(@Param("record") OrderItem record, @Param("example") OrderItemQuery example);
+
+    int updateByExample(@Param("record") OrderItem record, @Param("example") OrderItemQuery example);
+}
