@@ -27,6 +27,6 @@
     </bean>
     <!--配置包扫描地址-->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.fmjava.core.dao" />
+        <property name="basePackage" value="com.itxk.core.dao" />
     </bean>
 </beans>
