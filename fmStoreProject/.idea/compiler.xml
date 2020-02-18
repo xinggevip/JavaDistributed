@@ -15,5 +15,8 @@
         <module name="web_management" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="TestProject" target="1.7" />
+    </bytecodeTargetLevel>
   </component>
 </project>

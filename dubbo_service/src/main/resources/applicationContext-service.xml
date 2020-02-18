@@ -11,7 +11,7 @@
     <!--  给当前项目服务起个名字 -->
     <dubbo:application name="dubboxdemo-service"/>
     <!-- 配置连接zookeeper的IP和端口 -->
-    <dubbo:registry address="zookeeper://192.168.149.128:2181"/>
+    <dubbo:registry address="zookeeper://192.168.68.88:2181"/>
     <!-- 配置包扫描, 在这个包下面的实现类中使用@Service注解才会生效 -->
     <dubbo:annotation package="com.fmjava.service"/>
 </beans>

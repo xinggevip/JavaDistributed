@@ -1,5 +1,1 @@
-<html>
-<body>
-<h2>Hello World!</h2>
-</body>
-</html>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%><!DOCTYPE html><html lang="en"><head>    <meta http-equiv=“Content-Type” content=“text/html; charset=UTF-8″></head><body><h2>Hello World!</h2><p>我是中文</p></body></html>

@@ -24,7 +24,7 @@
     <!-- 给当前项目服务起个名-->
     <dubbo:application name="dubboxdemo-web" />
     <!-- 配置连接zookepper  -->
-    <dubbo:registry address="zookeeper://192.168.149.128:2181"/>
+    <dubbo:registry address="zookeeper://192.168.68.88:2181"/>
     <!-- 配置包扫描, 只有在这个包下面才可以注入service -->
     <dubbo:annotation package="com.fmjava.controller" />
 </beans>

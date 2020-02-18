@@ -18,7 +18,7 @@
             <version>1.0</version>
         </dependency>
     </dependencies>
-
+    <!-- 为了不让项目把配置问价给过滤了 -->
     <build>
         <resources>
             <resource>
