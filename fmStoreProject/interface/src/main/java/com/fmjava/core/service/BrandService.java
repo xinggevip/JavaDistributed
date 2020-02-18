@@ -4,6 +4,7 @@ import com.fmjava.core.pojo.good.Brand;
 
 import java.util.List;
 
-public interface TestInterface {
-    public List<Brand> getName();
+public interface BrandService {
+    // 查所有的品牌
+    List<Brand> findAllBrands();
 }

@@ -8,13 +8,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 
 @Service
-public class TestInterfaceImpl implements TestInterface {
+public class BrandServiceImpl implements BrandService {
 
+    /**
+     * 导入dao
+     */
     @Autowired
     private BrandDao brandDao;
 
     @Override
-    public List<Brand> getName() {
+    public List<Brand> findAllBrands() {
+        /**
+         * 查所有
+         */
         List<Brand> brands = brandDao.selectByExample(null);
         return brands;
     }

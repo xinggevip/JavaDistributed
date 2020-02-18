@@ -2,21 +2,21 @@ package com.fmjava.core.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.fmjava.core.pojo.good.Brand;
-import com.fmjava.core.service.TestInterface;
+import com.fmjava.core.service.BrandService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
-public class TestController {
+public class BrandController {
 
     @Reference
-    private TestInterface testInterface;
+    private BrandService brandService;
 
-    @RequestMapping("/getname")
-    public List<Brand> getname(){
-//        return "getname";
-        return testInterface.getName(); // TestInterfaceImpl----dubbo
+    @RequestMapping("/findAllBrands")
+    public List<Brand> getallbrands(){
+        List<Brand> allBrands = brandService.findAllBrands();
+        return allBrands;
     }
 }
