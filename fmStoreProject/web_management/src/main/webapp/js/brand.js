@@ -21,6 +21,7 @@ new Vue({
             // 发送请求
             axios.post("/brand/findAllBrands.do").then(function (response) {
                 // 响应成功执行
+                _this.brandList = response.data;
                 console.log(response);
             }).catch(function (reason) {
                 // 响应失败执行
