@@ -18,14 +18,21 @@ new Vue({
         pageHandler(page) {
             this.page = page;
             var _this = this;
-            // 发送请求
-            axios.post("/brand/findAllBrands.do").then(function (response) {
-                // 响应成功执行
-                _this.brandList = response.data;
-                console.log(response);
-            }).catch(function (reason) {
-                // 响应失败执行
-            });
+            _this = this;
+            //here you can do custom state update
+            this.page = page;
+            axios.get('/brand/findPage.do',{params:{page:page,rows:this.pageSize}})
+                .then(function (response) {
+                    //取服务端响应的结果
+                    _this.brandList = response.data.rows;
+                    _this.total = response.data.total;
+                    console.log(response);
+                }).catch(function (reason) {
+                console.log(reason);
+            })
+
+
+
         },
         // 保存和更新
         save(){

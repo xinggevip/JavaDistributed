@@ -1,12 +1,10 @@
 package com.fmjava.core.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.fmjava.core.pojo.good.Brand;
+import com.fmjava.core.pojo.entity.PageResult;
 import com.fmjava.core.service.BrandService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/brand")
@@ -15,9 +13,10 @@ public class BrandController {
     @Reference
     private BrandService brandService;
 
-    @RequestMapping("/findAllBrands")
-    public List<Brand> getallbrands(){
-        List<Brand> allBrands = brandService.findAllBrands();
+    // 分页查询品牌
+    @RequestMapping("/findPage")
+    public PageResult getallbrands(Integer page,Integer rows){
+        PageResult allBrands = brandService.findAllBrands(page, rows);
         return allBrands;
     }
 }
