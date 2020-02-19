@@ -6,6 +6,9 @@
     <file type="web" url="file://$PROJECT_DIR$/TestProject" />
     <file type="web" url="file://$PROJECT_DIR$/web_management" />
   </component>
+  <component name="JavaScriptSettings">
+    <option name="languageLevel" value="JSX" />
+  </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>

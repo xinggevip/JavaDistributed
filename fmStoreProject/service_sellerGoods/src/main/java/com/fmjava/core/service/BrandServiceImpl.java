@@ -17,6 +17,7 @@ public class BrandServiceImpl implements BrandService {
     @Autowired
     private BrandDao brandDao;
 
+    // 分页查询品牌
     @Override
     public PageResult findAllBrands(Integer page,Integer rows) {
         /**
@@ -25,5 +26,11 @@ public class BrandServiceImpl implements BrandService {
         PageHelper.startPage(page,rows);
         Page<Brand> brandPageInfo = (Page<Brand>) brandDao.selectByExample(null);
         return new PageResult(brandPageInfo.getTotal(),brandPageInfo.getResult());
+    }
+
+    // 添加品牌
+    @Override
+    public void add(Brand brand) {
+        brandDao.insertSelective(brand);
     }
 }

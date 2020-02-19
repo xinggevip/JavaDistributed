@@ -2,7 +2,10 @@ new Vue({
     el:"#app",
     data:{
         brandList:[],
-        brand:{},
+        brand:{
+            name:'',
+            firstChar:''
+        },
         page: 1,  //显示的是哪一页 当前角标
         pageSize: 10, //每一页显示的数据条数
         total: 0, //记录总数
@@ -36,6 +39,19 @@ new Vue({
         },
         // 保存和更新
         save(){
+            console.log(this.brand);
+            let _this = this;
+            axios.post('/brand/add.do',this.brand)
+                .then(function (response) {
+                    if (response.data.success){
+                        alert(response.data.message);
+                        _this.pageHandler(1);
+                    }else{
+                        alert(response.data.message);
+                    }
+                }).catch(function (reason) {
+                console.log(reason);
+            })
 
         },
         // 根据id查找
