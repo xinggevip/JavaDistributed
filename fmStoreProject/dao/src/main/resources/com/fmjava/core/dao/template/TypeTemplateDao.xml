@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.fmjava.core.dao.template.TypeTemplateDao" >
   <resultMap id="BaseResultMap" type="com.fmjava.core.pojo.template.TypeTemplate" >
-    <result column="id" property="id" jdbcType="BIGINT" />
+    <id column="id" property="id" jdbcType="BIGINT" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="spec_ids" property="specIds" jdbcType="VARCHAR" />
     <result column="brand_ids" property="brandIds" jdbcType="VARCHAR" />
@@ -88,6 +88,16 @@
       order by ${orderByClause}
     </if>
   </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    id,name,spec_ids,brand_ids,custom_attribute_items
+    from tb_type_template
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from tb_type_template
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
   <delete id="deleteByExample" parameterType="com.fmjava.core.pojo.template.TypeTemplateQuery" >
     delete from tb_type_template
     <if test="_parameter != null" >
@@ -176,5 +186,31 @@
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fmjava.core.pojo.template.TypeTemplate" >
+    update tb_type_template
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="specIds != null" >
+        spec_ids = #{specIds,jdbcType=VARCHAR},
+      </if>
+      <if test="brandIds != null" >
+        brand_ids = #{brandIds,jdbcType=VARCHAR},
+      </if>
+      <if test="customAttributeItems != null" >
+        custom_attribute_items = #{customAttributeItems,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fmjava.core.pojo.template.TypeTemplate" >
+    update tb_type_template
+    set name = #{name,jdbcType=VARCHAR},
+      spec_ids = #{specIds,jdbcType=VARCHAR},
+      brand_ids = #{brandIds,jdbcType=VARCHAR},
+      custom_attribute_items = #{customAttributeItems,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

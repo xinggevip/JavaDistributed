@@ -37,4 +37,23 @@ public class BrandController {
         }
     }
 
+    // 根据id查询单个品牌
+    @RequestMapping("/findOne")
+    public Brand findOne(Long id){
+        Brand brand = brandService.findBrandWidthId(id);
+        return brand;
+    }
+
+    // 更新品牌
+    @RequestMapping("/updata")
+    public Result updata(@RequestBody Brand brand ){
+        try {
+            brandService.updata(brand);
+            return new Result(true,"更新成功");
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return new Result(false,"更新失败");
+        }
+    }
+
 }

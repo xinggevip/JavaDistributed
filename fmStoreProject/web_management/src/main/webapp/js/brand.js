@@ -3,6 +3,7 @@ new Vue({
     data:{
         brandList:[],
         brand:{
+            id:null,
             name:'',
             firstChar:''
         },
@@ -37,11 +38,27 @@ new Vue({
 
 
         },
+        // 新增
+        add(){
+            // alert("更改brand的值");
+            this.brand.id = null;
+            this.brand.name = '';
+            this.brand.firstChar = '';
+        },
         // 保存和更新
         save(){
+
+            let url = '';
+
+            if(this.brand.id == null){
+                url = '/brand/add.do';
+            }else{
+                url = '/brand/updata.do';
+            }
+
             console.log(this.brand);
             let _this = this;
-            axios.post('/brand/add.do',this.brand)
+            axios.post(url,this.brand)
                 .then(function (response) {
                     if (response.data.success){
                         alert(response.data.message);
@@ -56,7 +73,13 @@ new Vue({
         },
         // 根据id查找
         findById(id){
-
+            console.log(id);
+            let _this = this;
+            axios.get('/brand/findOne.do',{params:{id:id}}).then(function (response) {
+                    _this.brand = response.data;
+                }).catch(function (reason) {
+                console.log(reason);
+            })
         },
         // 删除选中多个
         deleteSelection(event,id){
@@ -64,6 +87,12 @@ new Vue({
         },
         // 删除选中单个
         deleteBrand(){
+
+        },
+
+        // 更新
+        updata(item){
+            // this.brand = item;
 
         }
 

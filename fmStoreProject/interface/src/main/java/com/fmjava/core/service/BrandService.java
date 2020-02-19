@@ -12,4 +12,17 @@ public interface BrandService {
      * @param brand
      */
     void add(Brand brand);
+
+    /**
+     * 根据id查单个品牌
+     * @param id
+     * @return
+     */
+    Brand findBrandWidthId(Long id);
+
+    /**
+     * 更新品牌
+     * @param brand
+     */
+    void updata(Brand brand);
 }
