@@ -22,7 +22,7 @@ public class BrandServiceImpl implements BrandService {
 
     // 分页查询品牌
     @Override
-    public PageResult findAllBrands(Integer page,Integer rows) {
+    public PageResult findAllBrands(Integer page,Integer rows,Brand brand) {
         /**
          *  分页查询品牌
          */
@@ -30,6 +30,17 @@ public class BrandServiceImpl implements BrandService {
         BrandQuery brandQuery = new BrandQuery();
         // 按照id降序排序
         brandQuery.setOrderByClause("id desc");
+        // 匹配关键词搜索
+        if (brand != null) {
+            BrandQuery.Criteria criteria = brandQuery.createCriteria();
+            if (brand.getName() != null && !"".equals(brand.getName())) {
+                criteria.andNameLike("%"+brand.getName()+"%");
+            }
+            if (brand.getFirstChar() != null && !"".equals(brand.getFirstChar())) {
+                criteria.andFirstCharLike("%"+brand.getFirstChar()+"%");
+            }
+        }
+
         Page<Brand> brandPageInfo = (Page<Brand>) brandDao.selectByExample(brandQuery);
         return new PageResult(brandPageInfo.getTotal(),brandPageInfo.getResult());
     }

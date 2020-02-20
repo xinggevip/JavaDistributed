@@ -18,8 +18,8 @@ public class BrandController {
 
     // 分页查询品牌
     @RequestMapping("/findPage")
-    public PageResult getallbrands(Integer page,Integer rows){
-        PageResult allBrands = brandService.findAllBrands(page, rows);
+    public PageResult getallbrands(Integer page,Integer rows,@RequestBody Brand brand){
+        PageResult allBrands = brandService.findAllBrands(page, rows, brand);
         return allBrands;
     }
 

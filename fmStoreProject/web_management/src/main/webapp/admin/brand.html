@@ -30,6 +30,13 @@
                             <button type="button" class="btn btn-default" title="删除" @click="deleteBrand()"><i class="fa fa-trash-o"></i> 删除</button>
                             <button type="button" class="btn btn-default" title="刷新" onclick="window.location.reload();"><i class="fa fa-refresh"></i> 刷新</button>
                         </div>
+                        <div class="box-tools pull-right">
+                            <div class="has-feedback" style="margin-left: 750px; font-size: 16px">
+                                品牌名称: <input type="text" v-model="searchObj.name" class="form-control" >
+                                品牌首字母: <input type="text" v-model="searchObj.firstChar" class="form-control">
+                                <input class="btn btn-default" type="button"  @click="pageHandler(1)"  value="查询">
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="box-tools pull-right">

@@ -12,7 +12,10 @@ new Vue({
         total: 0, //记录总数
         maxPage:9,
         selectedID:[],
-        searchObj:{}
+        searchObj:{
+            name:'',
+            firstChar:''
+        }
     },
     created(){
         this.pageHandler(1);
@@ -25,7 +28,7 @@ new Vue({
             _this = this;
             //here you can do custom state update
             this.page = page;
-            axios.get('/brand/findPage.do',{params:{page:page,rows:this.pageSize}})
+            axios.post('/brand/findPage.do?page=' + page + '&rows=' + this.pageSize,this.searchObj)
                 .then(function (response) {
                     //取服务端响应的结果
                     _this.brandList = response.data.rows;
