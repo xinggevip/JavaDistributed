@@ -83,11 +83,29 @@ new Vue({
         },
         // 删除选中多个
         deleteSelection(event,id){
-
+            if(event.target.checked){
+                // 向数组中添加元素
+                this.selectedID.push(id);
+            }else{
+                // 从数组中移除
+                var idx = this.selectedID.indexOf(id);
+                this.selectedID.splice(idx,1);
+            }
+            console.log(this.selectedID);
         },
-        // 删除选中单个
+        // 删除选中的品牌
         deleteBrand(){
-
+            _this = this;
+            axios.post("/brand/delete.do",Qs.stringify({idx:this.selectedID},{indices:false})).then(function (response) {
+                    if (response.data.success){
+                        alert(response.data.message);
+                        _this.pageHandler(1);
+                    }else{
+                        alert(response.data.message);
+                    }
+                }).catch(function (reason) {
+                console.log(reason);
+            })
         },
 
         // 更新

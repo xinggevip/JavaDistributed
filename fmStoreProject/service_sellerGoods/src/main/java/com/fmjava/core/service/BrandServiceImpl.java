@@ -9,6 +9,8 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Arrays;
+
 @Service
 public class BrandServiceImpl implements BrandService {
 
@@ -49,5 +51,26 @@ public class BrandServiceImpl implements BrandService {
     @Override
     public void updata(Brand brand) {
         brandDao.updateByPrimaryKeySelective(brand);
+    }
+
+    /**
+     * 根据id数组删除品牌
+     * @param idx
+     */
+    @Override
+    public void delete(Long[] idx) {
+
+        // 指定条件删除
+        BrandQuery brandQuery = new BrandQuery();
+
+        BrandQuery.Criteria criteria = brandQuery.createCriteria();
+        criteria.andIdIn(Arrays.asList(idx));
+
+        brandDao.deleteByExample(brandQuery);
+
+        // 遍历id删除
+        /*for (Long aLong : idx) {
+            brandDao.deleteByPrimaryKey(aLong);
+        }*/
     }
 }

@@ -27,7 +27,7 @@
                     <div class="form-group form-inline">
                         <div class="btn-group">
                             <button type="button" class="btn btn-default" title="新建" data-toggle="modal" data-target="#editModal" @click="add()" ><i class="fa fa-file-o"></i> 新建</button>
-                            <button type="button" class="btn btn-default" title="删除" ><i class="fa fa-trash-o"></i> 删除</button>
+                            <button type="button" class="btn btn-default" title="删除" @click="deleteBrand()"><i class="fa fa-trash-o"></i> 删除</button>
                             <button type="button" class="btn btn-default" title="刷新" onclick="window.location.reload();"><i class="fa fa-refresh"></i> 刷新</button>
                         </div>
                     </div>
@@ -40,7 +40,7 @@
                     <thead>
                     <tr>
                         <th class="" style="padding-right:0px">
-                            <input id="selall" type="checkbox" class="icheckbox_square-blue">
+                            <input id="selall" type="checkbox" class="icheckbox_square-blue" >
                         </th>
                         <th class="sorting_asc">品牌ID</th>
                         <th class="sorting">品牌名称</th>
@@ -50,7 +50,7 @@
                     </thead>
                     <tbody>
                     <tr v-for="(item,index) in brandList" :key="index">
-                        <td><input  type="checkbox" ></td>
+                        <td><input  type="checkbox" @click="deleteSelection($event,item.id)"></td>
                         <td>{{item.id}}</td>
                         <td>{{item.name}}</td>
                         <td>{{item.firstChar}}</td>
@@ -104,6 +104,7 @@
 </body>
 <script src="../plugins/vue/axios-0.18.0.js"></script>
 <script src="../plugins/vue/vuejs-2.5.16.js"></script>
+<script src="../plugins/vue/qs.js"></script>
 <script type="text/javascript" src="../plugins/pageination/zpageNav.js"></script>
 <script src="../js/brand.js"></script>
 

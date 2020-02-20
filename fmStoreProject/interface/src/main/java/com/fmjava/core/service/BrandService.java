@@ -25,4 +25,10 @@ public interface BrandService {
      * @param brand
      */
     void updata(Brand brand);
+
+    /**
+     * 根据id数组删除品牌
+     * @param idx
+     */
+    void delete(Long[] idx);
 }
