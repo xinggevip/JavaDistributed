@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="../plugins/adminLTE/css/AdminLTE.css">
     <link rel="stylesheet" href="../plugins/adminLTE/css/skins/_all-skins.min.css">
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../plugins/pageination/zpageNav.css">
     <script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
     <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
     <script src="../plugins/adminLTE/js/app.min.js"></script>
@@ -34,28 +35,32 @@
 
 <div class="wrapper">
 
-    <!-- 页面头部 -->
-    <header class="main-header">
-        <!--顶部左侧-->
-        <a href="index.html" class="logo" style="background: #1a2226;">
-            <span class="logo-mini"><b>商城列表</b></span>
-            <span class="logo-lg"><b>运营商后台</b></span>
-        </a>
-        <!--顶部右侧-->
-        <nav class="navbar navbar-static-top" style="background: #222d32;">
-            <div class="navbar-custom-menu">
-                <ul class="nav navbar-nav">
+    <div id="app">
+        <!-- 页面头部 -->
+        <header class="main-header">
+            <!--顶部左侧-->
+            <a href="index.html" class="logo" style="background: #1a2226;">
+                <span class="logo-mini"><b>商城列表</b></span>
+                <span class="logo-lg"><b>运营商后台</b></span>
+            </a>
+            <!--顶部右侧-->
+            <nav class="navbar navbar-static-top" style="background: #222d32;">
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
 
-                    <li class="dropdown user user-menu">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <img src="../img/logo.png" class="user-image" alt="User Image">
-                            <span class="hidden-xs">FMJava</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-    </header>
+                        <li class="dropdown user user-menu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <img src="../img/logo.png" class="user-image" alt="User Image">
+                                <span class="hidden-xs">{{loginName}}</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+    </div>
+
+
 
     <!-- 导航侧栏 -->
     <aside class="main-sidebar">
@@ -172,5 +177,32 @@
 </div>
 
 </body>
+<script src="../plugins/vue/axios-0.18.0.js"></script>
+<script src="../plugins/vue/vuejs-2.5.16.js"></script>
+<script src="../plugins/vue/qs.js"></script>
+<script type="text/javascript" src="../plugins/pageination/zpageNav.js"></script>
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            loginName: ''
+        },
+        methods: {
+            getLoginName:function () {
+                _this = this;
+                axios.post("/login/loginName.do")
+                    .then(function (response) {
+                        _this.loginName = response.data.username;
+                        console.log(response.data);
+                    }).catch(function (reason) {
+                    console.log(reason);
+                })
+            }
+        },
+        created: function () {
+            this.getLoginName();
+        }
+    });
+</script>
 
 </html>
