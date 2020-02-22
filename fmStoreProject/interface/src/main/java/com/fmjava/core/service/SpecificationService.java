@@ -4,6 +4,9 @@ import com.fmjava.core.pojo.entity.PageResult;
 import com.fmjava.core.pojo.entity.SpecEntity;
 import com.fmjava.core.pojo.specification.Specification;
 
+import java.util.List;
+import java.util.Map;
+
 public interface SpecificationService {
 
     /**
@@ -18,4 +21,6 @@ public interface SpecificationService {
     void update(SpecEntity specEntity);
 
     void delete(Long[] ids);
+
+    List<Map> selectOptionList();
 }

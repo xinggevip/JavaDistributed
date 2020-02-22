@@ -153,7 +153,10 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <update id="updateByExampleSelective" parameterType="map" >
+    <select id="selectOptionList" resultType="java.util.Map">
+      select id, name from tb_brand
+    </select>
+    <update id="updateByExampleSelective" parameterType="map" >
     update tb_type_template
     <set >
       <if test="record.id != null" >

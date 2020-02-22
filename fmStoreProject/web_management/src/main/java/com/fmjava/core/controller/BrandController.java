@@ -5,9 +5,13 @@ import com.fmjava.core.pojo.entity.PageResult;
 import com.fmjava.core.pojo.entity.Result;
 import com.fmjava.core.pojo.good.Brand;
 import com.fmjava.core.service.BrandService;
+import com.fmjava.core.service.TemplateService;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/brand")
@@ -15,6 +19,9 @@ public class BrandController {
 
     @Reference
     private BrandService brandService;
+
+    @Reference
+    private TemplateService templateService;
 
     // 分页查询品牌
     @RequestMapping("/findPage")
@@ -65,6 +72,11 @@ public class BrandController {
         }catch (Exception e){
             return new Result(true,"删除失败");
         }
+    }
+
+    @RequestMapping("/selectOptionList")
+    public List<Map> selectOptionList(){
+        return templateService.selectOptionList();
     }
 
 }
