@@ -13,6 +13,7 @@
         <module name="pojo" />
         <module name="service_sellerGoods" />
         <module name="web_management" />
+        <module name="web_shop" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
