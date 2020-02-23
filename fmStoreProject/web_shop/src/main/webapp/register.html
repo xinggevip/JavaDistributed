@@ -188,8 +188,8 @@
 			add:function () {
 				axios.post("/seller/add.do",this.enterprise)
 						.then(function (response) {
-							console.log(response);
-							alert("注册成功");
+							console.log(response.data);
+							alert(response.data.message);
 							location.href="shoplogin.html";
 						}).catch(function (reason) {
 					console.log(reason);
