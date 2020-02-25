@@ -33,7 +33,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
         if (seller != null){
             if ("1".equals(seller.getStatus())){
                 // 说明用户已激活
-                return new User(username,"{noop}" + seller.getPassword(),authList);
+                return new User(username,seller.getPassword(),authList);
             }
         }
 
