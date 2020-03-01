@@ -97,7 +97,7 @@ new Vue({
                     _this.currngImg.url = response.data.message;
                 }
             }).catch(function (reason) {
-
+                    console.log(reason);
             });
         },
         saveImage:function () {
