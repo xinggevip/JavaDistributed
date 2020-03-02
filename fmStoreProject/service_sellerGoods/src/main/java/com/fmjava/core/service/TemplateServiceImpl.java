@@ -87,6 +87,9 @@ public class TemplateServiceImpl implements TemplateService {
 
     @Override
     public List<Map> findBySpecList(Long id) {
+        /**
+         * 查询规格选项
+         */
         //1.根据id查询模板
         TypeTemplate template = templateDao.selectByPrimaryKey(id);
         //2.从模板当中获取规格的集合
