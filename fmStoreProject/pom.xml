@@ -17,6 +17,8 @@
         <module>dao</module>
         <module>TestProject</module>
         <module>web_shop</module>
+        <module>web_portal</module>
+        <module>solr_util</module>
     </modules>
 
     <!-- 集中定义依赖版本号 -->

@@ -12,7 +12,9 @@
         <module name="interface" />
         <module name="pojo" />
         <module name="service_sellerGoods" />
+        <module name="solr_util" />
         <module name="web_management" />
+        <module name="web_portal" />
         <module name="web_shop" />
       </profile>
     </annotationProcessing>

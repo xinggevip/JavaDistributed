@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/itemCat")
+@RequestMapping("itemCat")
 public class ItemCatController {
 
     @Reference
@@ -20,4 +20,10 @@ public class ItemCatController {
         List<ItemCat> list = catService.findByParentId(parentId);
         return list;
     }
+
+    @RequestMapping("/findAll")
+    public List<ItemCat> findAll() {
+        return catService.findAll();
+    }
+
 }
