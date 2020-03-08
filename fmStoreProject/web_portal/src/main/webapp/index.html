@@ -53,8 +53,8 @@
 							<div class="search">
 								<form action="" class="sui-form form-inline">
 									<div class="input-append">
-										<input type="text" id="autocomplete" type="text" class="input-error input-xxlarge" />
-										<a class="sui-btn btn-xlarge btn-danger" href="search.html">搜索</a>
+										<input type="text" id="autocomplete" v-model="sc" type="text" class="input-error input-xxlarge" />
+										<a class="sui-btn btn-xlarge btn-danger" :href="'search.html?sc='+sc">搜索</a>
 									</div>
 								</form>
 							</div>
@@ -1075,6 +1075,7 @@
 		el:"#app",
 		data:{
 			contentList:[],
+			sc:''
 		},
 		methods:{
 			loadCategoryDataById: function (categoryId) {

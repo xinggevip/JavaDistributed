@@ -11,6 +11,7 @@
         <module name="dao" />
         <module name="interface" />
         <module name="pojo" />
+        <module name="service_search" />
         <module name="service_sellerGoods" />
         <module name="solr_util" />
         <module name="web_management" />
