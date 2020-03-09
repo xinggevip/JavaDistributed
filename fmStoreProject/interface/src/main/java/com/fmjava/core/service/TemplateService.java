@@ -7,25 +7,11 @@ import java.util.List;
 import java.util.Map;
 
 public interface TemplateService {
+    public PageResult findPage(TypeTemplate template, Integer page, Integer pageSize);
 
-    /**
-     * 分页查询
-     * @param page
-     * @param pageSize
-     * @param searchTemp
-     * @return
-     */
-    PageResult search(Integer page, Integer pageSize, TypeTemplate searchTemp);
-
-    List<Map> selectOptionList();
-
-    void add(TypeTemplate typeTemplate);
+    void add(TypeTemplate template);
 
     TypeTemplate findOne(Long id);
-
-    void update(TypeTemplate typeTemplate);
-
-    void delete(Long[] idx);
 
     List<Map> findBySpecList(Long id);
 }

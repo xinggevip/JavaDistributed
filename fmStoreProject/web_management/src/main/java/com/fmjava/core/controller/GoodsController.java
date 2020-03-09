@@ -5,17 +5,30 @@ import com.fmjava.core.pojo.entity.GoodsEntity;
 import com.fmjava.core.pojo.entity.PageResult;
 import com.fmjava.core.pojo.entity.Result;
 import com.fmjava.core.pojo.good.Goods;
+import com.fmjava.core.pojo.item.Item;
+import com.fmjava.core.service.CmsService;
 import com.fmjava.core.service.GoodsService;
+import com.fmjava.core.service.SolrManagerService;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RequestMapping("/goods")
 @RestController
 public class GoodsController {
     @Reference
     private GoodsService goodsService;
+
+    @Reference
+    private CmsService cmsService;
+
+    @Reference
+    private SolrManagerService solrManagerService;
+
+
     @RequestMapping("/add")
     public Result add(@RequestBody GoodsEntity goodsEntity) {
         try {
@@ -79,12 +92,36 @@ public class GoodsController {
     public Result updateStatus(Long[] ids, String status) {
         try {
             goodsService.updateStatus(ids, status);
+            if ("2".equals(status)){
+                List<Item> items = goodsService.findItemByGoodsIdAndStatus(ids, status);
+                solrManagerService.saveItemToSolr(items);
+            }
             return new Result(true, "状态修改成功!");
         } catch (Exception e) {
             e.printStackTrace();
             return new Result(false, "状态修改失败!");
         }
     }
+
+    /**
+     * 测试生成静态页面
+     * @param goodsId   商品id
+     * @return
+     */
+    @RequestMapping("/testPage")
+    public Boolean testCreatePage(Long goodsId) {
+        try {
+            cmsService.createStaticPage(goodsId);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
+
+
 
 
 

@@ -9,9 +9,11 @@ import com.fmjava.core.pojo.specification.SpecificationOption;
 import com.fmjava.core.pojo.specification.SpecificationOptionQuery;
 import com.fmjava.core.pojo.template.TypeTemplate;
 import com.fmjava.core.pojo.template.TypeTemplateQuery;
+import com.fmjava.utils.Constants;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -20,76 +22,62 @@ import java.util.Map;
 @Service
 @Transactional
 public class TemplateServiceImpl implements TemplateService {
-
     @Autowired
     private TypeTemplateDao templateDao;
     @Autowired
     private SpecificationOptionDao specificationOptionDao;
 
-    /**
-     * 分页查询
-     * @param page
-     * @param pageSize
-     * @param searchTemp
-     * @return
-     */
+    @Autowired
+    private RedisTemplate redisTemplate;
+
     @Override
-    public PageResult search(Integer page, Integer pageSize, TypeTemplate searchTemp) {
+    public PageResult findPage(TypeTemplate template, Integer page, Integer pageSize) {
 
-        PageHelper.startPage(page,pageSize);
+        if (!redisTemplate.hasKey(Constants.BRAND_LIST_REDIS) || !redisTemplate.hasKey(Constants.SPEC_LIST_REDIS)){
+            System.out.println("redis缓存品牌与规格");
+            //查询出所有的模板
+            List<TypeTemplate> typeTemplates = templateDao.selectByExample(null);
+            for (TypeTemplate typeTemplate : typeTemplates) {
+                //1.取出品牌
+                String brandIds = typeTemplate.getBrandIds();
+                //转成json
+                List<Map> brandList = JSON.parseArray(brandIds, Map.class);
+                redisTemplate.boundHashOps(Constants.BRAND_LIST_REDIS)
+                        .put(typeTemplate.getId(),brandList);
+                //2.取出规格
+                List<Map> bySpecList = this.findBySpecList(typeTemplate.getId());
+                redisTemplate.boundHashOps(Constants.SPEC_LIST_REDIS)
+                        .put(typeTemplate.getId(),bySpecList);
 
-        // 降序排序
-        TypeTemplateQuery typeTemplateQuery = new TypeTemplateQuery();
-        typeTemplateQuery.setOrderByClause("id desc");
-
-        // 匹配关键词
-        if (searchTemp != null){
-            TypeTemplateQuery.Criteria criteria = typeTemplateQuery.createCriteria();
-            if (searchTemp.getName() != null && !"".equals(searchTemp.getName())){
-                criteria.andNameLike("%" + searchTemp.getName() + "%");
             }
+
         }
 
-        // 执行查询
-        Page<TypeTemplate> typeTemplates = (Page<TypeTemplate>)templateDao.selectByExample(typeTemplateQuery);
-
-        PageResult pageResult = new PageResult(typeTemplates.getTotal(), typeTemplates.getResult());
-
-        return pageResult;
+       PageHelper.startPage(page, pageSize);
+        TypeTemplateQuery query = new TypeTemplateQuery();
+        TypeTemplateQuery.Criteria criteria = query.createCriteria();
+        if (template != null) {
+            if (template.getName() != null && !"".equals(template.getName())) {
+                criteria.andNameLike("%"+template.getName()+"%");
+            }
+        }
+        Page<TypeTemplate> templateList =  (Page<TypeTemplate>)templateDao.selectByExample(query);
+        return new PageResult(templateList.getResult(),templateList.getTotal());
     }
 
     @Override
-    public List<Map> selectOptionList() {
-        return templateDao.selectOptionList();
-    }
-
-    @Override
-    public void add(TypeTemplate typeTemplate) {
-        templateDao.insertSelective(typeTemplate);
+    public void add(TypeTemplate template) {
+        templateDao.insertSelective(template);
     }
 
     @Override
     public TypeTemplate findOne(Long id) {
+
         return templateDao.selectByPrimaryKey(id);
     }
 
     @Override
-    public void update(TypeTemplate typeTemplate) {
-        templateDao.updateByPrimaryKeySelective(typeTemplate);
-    }
-
-    @Override
-    public void delete(Long[] idx) {
-        for (Long aLong : idx) {
-            templateDao.deleteByPrimaryKey(aLong);
-        }
-    }
-
-    @Override
     public List<Map> findBySpecList(Long id) {
-        /**
-         * 查询规格选项
-         */
         //1.根据id查询模板
         TypeTemplate template = templateDao.selectByPrimaryKey(id);
         //2.从模板当中获取规格的集合
@@ -111,6 +99,4 @@ public class TemplateServiceImpl implements TemplateService {
         }
         return null;
     }
-
-
 }

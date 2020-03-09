@@ -24,10 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @Transactional
@@ -227,5 +224,19 @@ public class GoodsServiceImpl implements GoodsService {
             item.setImage(url);
         }
         return item;
+    }
+
+    /**
+     * 根据商品id和状态查询库存
+     * @param ids 商品id集合
+     * @param status  商品状态
+     * @return
+     */
+    public List<Item> findItemByGoodsIdAndStatus(Long[]ids,String status){
+        ItemQuery query = new ItemQuery();
+        ItemQuery.Criteria criteria = query.createCriteria();
+        criteria.andStatusEqualTo(status);
+        criteria.andGoodsIdIn(Arrays.asList(ids));
+        return itemDao.selectByExample(query);
     }
 }

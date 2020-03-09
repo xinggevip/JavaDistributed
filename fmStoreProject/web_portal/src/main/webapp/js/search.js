@@ -38,6 +38,7 @@ new Vue({
                    _this.resultMap = response.data;
                    //构建分页
                    _this.buildPageLabel(_this);
+                   console.log(response.data)
                 }).catch(function (reason) {
                 console.log(reason.data);
             });
@@ -93,7 +94,40 @@ new Vue({
             }
             this.searchMap.pageNo=pageNo;
             this.search();//查询
-        }
+        },
+
+        //添加搜索项  改变searchMap的值
+        addSearchItem:function(key,value){
+            //如果用户点击的是分类或品牌
+            if(key=='category' || key=='brand' || key=='price'){
+                this.searchMap[key]=value;
+
+            }else{//用户点击的是规格
+                Vue.set(this.searchMap.spec,key,value);
+            }
+            console.log(this.searchMap);
+            this.search();
+        },
+        //撤销搜索项
+        removeSearchItem:function(key){
+            //如果用户点击的是分类或品牌
+            if(key=='category' || key=='brand' || key=='price' ){
+                this.searchMap[key]="";
+            }else{//用户点击的是规格
+                Vue.delete(this.searchMap.spec,key);
+            }
+            this.search();
+        },
+        //判断关键字是否是品牌
+        keywordsIsBrand:function(){
+            for(var i=0;i< this.resultMap.brandList.length;i++){
+                //查看当前的搜索关键字是否在品牌列表当中
+                if( this.searchMap.keywords.indexOf( this.resultMap.brandList[i].name )>=0  ){
+                    return true;
+                }
+            }
+            return false;
+        },
 
 
     },
