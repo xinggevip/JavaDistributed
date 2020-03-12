@@ -1,0 +1,48 @@
+package com.fmjava.listener;
+
+import com.alibaba.fastjson.JSON;
+import com.fmjava.core.dao.item.ItemDao;
+import com.fmjava.core.pojo.item.Item;
+import com.fmjava.core.pojo.item.ItemQuery;
+import com.fmjava.core.service.SolrManagerService;
+import org.apache.activemq.command.ActiveMQObjectMessage;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.jms.Message;
+import javax.jms.MessageListener;
+import java.util.List;
+import java.util.Map;
+
+public class ItemSearchListener implements MessageListener {
+    @Autowired
+    private SolrManagerService solrManagerService;
+    @Autowired
+    private ItemDao itemDao;
+    @Override
+    public void onMessage(Message message) {
+        //为了方便获取文本消息, 将原生的消息对象转换成activeMq的文本消息对象
+        ActiveMQObjectMessage atm = (ActiveMQObjectMessage)message;
+        try {
+            Long[] goodsId = (Long[])atm.getObject();
+            for (Long aLong : goodsId) {
+                ItemQuery query = new ItemQuery();
+                ItemQuery.Criteria criteria = query.createCriteria();
+                //查询指定商品的库存数据
+                criteria.andGoodsIdEqualTo(aLong);
+                List<Item> items = itemDao.selectByExample(query);
+                if (items != null) {
+                    for (Item item : items) {
+                        //获取规格json格式字符串
+                        String specJsonStr = item.getSpec();
+                        Map map = JSON.parseObject(specJsonStr, Map.class);
+                        item.setSpecMap(map);
+                    }
+                }
+                solrManagerService.saveItemToSolr(items);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}

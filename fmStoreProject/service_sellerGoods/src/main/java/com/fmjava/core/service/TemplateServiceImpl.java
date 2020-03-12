@@ -99,4 +99,35 @@ public class TemplateServiceImpl implements TemplateService {
         }
         return null;
     }
+
+    @Override
+    public PageResult search(Integer page, Integer pageSize, TypeTemplate searchTemp) {
+        PageHelper.startPage(page, pageSize);
+        TypeTemplateQuery query = new TypeTemplateQuery();
+        TypeTemplateQuery.Criteria criteria = query.createCriteria();
+        if (searchTemp != null && !"".equals(searchTemp)){
+            if (searchTemp.getName() != null && !"".equals(searchTemp.getName())){
+                criteria.andNameLike(searchTemp.getName());
+            }
+        }
+        Page<TypeTemplate> typeTemplates = (Page<TypeTemplate>)templateDao.selectByExample(query);
+        return new PageResult(typeTemplates.getResult(),typeTemplates.getTotal());
+    }
+
+    @Override
+    public void update(TypeTemplate typeTemplate) {
+        templateDao.updateByPrimaryKeySelective(typeTemplate);
+    }
+
+    @Override
+    public void delete(Long[] idx) {
+        for (Long aLong : idx) {
+            templateDao.deleteByPrimaryKey(aLong);
+        }
+    }
+
+    @Override
+    public List<Map> selectOptionList() {
+        return templateDao.selectOptionList();
+    }
 }

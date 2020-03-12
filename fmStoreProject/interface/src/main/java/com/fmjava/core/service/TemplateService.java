@@ -14,4 +14,12 @@ public interface TemplateService {
     TypeTemplate findOne(Long id);
 
     List<Map> findBySpecList(Long id);
+
+    PageResult search(Integer page, Integer pageSize, TypeTemplate searchTemp);
+
+    void update(TypeTemplate typeTemplate);
+
+    void delete(Long[] idx);
+
+    List<Map> selectOptionList();
 }
